@@ -1,0 +1,13 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: example-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8851
+      config:
+        server-addr: localhost:8851
+        file-extension: yaml

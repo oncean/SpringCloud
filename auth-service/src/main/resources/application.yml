@@ -1,0 +1,12 @@
+server:
+  port: 9005
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: auth-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848

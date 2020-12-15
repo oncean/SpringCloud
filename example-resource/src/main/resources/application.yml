@@ -1,0 +1,18 @@
+
+server:
+  port: 9006
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: auth-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9005/.well-known/jwks.json
