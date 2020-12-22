@@ -2,7 +2,7 @@ package com.wangsheng.springcloud.config;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
-import com.wangsheng.springcloud.model.oauth2.OAuth2_Client;
+import com.wangsheng.springcloud.common.auth.OAuth2_Client;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +33,8 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.wangsheng.springcloud.common.auth.AuthConstants.COMMON_WHITE_URL_LIST;
+
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
@@ -62,8 +64,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .authorizedGrantTypes(OAuth2_Client.BROWSER.getGrant_type())
                 .secret(OAuth2_Client.BROWSER.getClient_secret())
                 .scopes(OAuth2_Client.BROWSER.getClient_scope())
-                .accessTokenValiditySeconds(6000);
+                .authorities("admin","user")
+                .accessTokenValiditySeconds(12*60*60);
     }
+
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
@@ -123,12 +127,8 @@ class SubjectAttributeUserTokenConverter extends DefaultUserAuthenticationConver
 @Configuration
 class UserConfig extends WebSecurityConfigurerAdapter {
 
-    private final static String[] WHITE_URL_LIST = {
-            "/test/**",
-            "/oauth/login",
-            "/health",
-            "/.well-known/jwks.json"
-    };
+    //授权中心应该所有接口都是可以外部访问的，不用进行权限校验
+    private final static String[] WHITE_URL_LIST = {"/**"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -139,7 +139,7 @@ class UserConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .and()
-                .csrf().ignoringRequestMatchers(request -> "/introspect".equals(request.getRequestURI()));
+                .csrf().disable();
     }
 }
 

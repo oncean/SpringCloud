@@ -1,9 +1,8 @@
 package com.wangsheng.springcloud.controller;
 
-import com.wangsheng.springcloud.model.result.Result;
+import com.wangsheng.springcloud.common.model.result.Result;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

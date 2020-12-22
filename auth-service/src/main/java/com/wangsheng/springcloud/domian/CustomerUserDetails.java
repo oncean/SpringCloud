@@ -1,7 +1,6 @@
 package com.wangsheng.springcloud.domian;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
-import com.wangsheng.springcloud.model.usercenter.User;
+import com.wangsheng.springcloud.common.model.usercenter.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

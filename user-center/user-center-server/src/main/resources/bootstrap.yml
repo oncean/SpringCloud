@@ -1,0 +1,28 @@
+server:
+  port: 9003
+
+nacos:
+  server-address: localhost
+  port: 8848
+  username: nacos
+  password: nacos
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: user-center
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.server-address}:${nacos.port}
+dubbo:
+  scan:
+    base-packages: com.wangsheng.springcloud.dubbo
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: nacos://${nacos.server-address}:${nacos.port}/?username=${nacos.username}&password=${nacos.password}
+  application:
+    name: dubbo-user-center

@@ -9,7 +9,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-@Service
 public class AuthenticationFilter extends AbstractGatewayFilterFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationFilter.class);
 

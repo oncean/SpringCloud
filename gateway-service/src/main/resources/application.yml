@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: gateway-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9005/.well-known/jwks.json
   cloud:
     nacos:
       discovery:
@@ -32,3 +37,9 @@ spring:
         - Path=/user-center/**
         filters:
         - RewritePath=/user-center(?<segment>/?.*), $\{segment}
+      - id: auth-service
+        uri: lb://auth-service
+        predicates:
+        - Path=/auth-service/**
+        filters:
+        - RewritePath=/auth-service(?<segment>/?.*), $\{segment}
