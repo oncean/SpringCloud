@@ -16,9 +16,4 @@ public class GlobalExceptionHandler {
         return Result.failed(e.getDetail());
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Result exception(Exception e){
-        return Result.failed(e.toString());
-    }
 }

@@ -11,7 +11,14 @@ public enum OAuth2_Client implements Serializable {
             "browser",
             "browser",
             "all",
-             "password"
+            "password"
+    ),
+
+    TEST1(
+            "TEST1",
+                    "TEST1",
+                    "all",
+                    "authorization_code"
     );
 
     private String client_id;

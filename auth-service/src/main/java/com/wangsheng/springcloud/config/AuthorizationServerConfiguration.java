@@ -64,8 +64,15 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .authorizedGrantTypes(OAuth2_Client.BROWSER.getGrant_type())
                 .secret(OAuth2_Client.BROWSER.getClient_secret())
                 .scopes(OAuth2_Client.BROWSER.getClient_scope())
-                .authorities("admin","user")
-                .accessTokenValiditySeconds(12*60*60);
+                .accessTokenValiditySeconds(12*60*60)
+        .and()
+        .withClient(OAuth2_Client.TEST1.getClient_id())
+        .authorizedGrantTypes(OAuth2_Client.TEST1.getGrant_type())
+        .secret(OAuth2_Client.TEST1.getClient_secret())
+        .scopes(OAuth2_Client.TEST1.getClient_scope())
+                .autoApprove(false)
+                .redirectUris("http://www.baidu.com")
+        .accessTokenValiditySeconds(12*60*60);
     }
 
 
