@@ -8,11 +8,9 @@
     <artifactId>cloudAlibaba</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>example-service</module>
         <module>example-client</module>
         <module>gateway-service</module>
         <module>user-center</module>
-        <module>auth-service</module>
         <module>auth-service</module>
         <module>common-service</module>
         <module>example-resource</module>
