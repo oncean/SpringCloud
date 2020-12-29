@@ -12,13 +12,13 @@
 ├── gateway-service              --网关服务
 ├── user-center              	 --用户中心
 │   ├── user-center-api          --api
-│   ├── user-center-server  	 --服务端
+│   ├── user-center-server       --服务端
 │   └── pom.xml
-├── website              		 --前端
-│   ├── login      				 --登录服务前端页面
+├── website                      --前端
+│   ├── login                    --登录服务前端页面
 │   └── pom.xml
-├── docs                 --文档及资源文件
-├── readme.md            --readme文档入口
+├── docs                         --文档及资源文件
+├── readme.md                    --readme文档入口
 └── pom.xml             
 ```
 
@@ -41,4 +41,8 @@
 ### 2020.12.24
 
 - 新增授权码登录方式
+
+## 问题解决记录
+
+- [【Spring Security】解决资源服务器无法获取userDetail内置的权限的问题](https://blog.csdn.net/sinat_41282961/article/details/111272166)
 
