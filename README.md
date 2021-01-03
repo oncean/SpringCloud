@@ -42,6 +42,11 @@
 
 - 新增授权码登录方式
 
+### 2021.01.03
+
+- 加入Spring Cloud Stream + kafka作为消息中间件
+- 更新hosts文件配置
+
 ## 问题解决记录
 
 - [【Spring Security】解决资源服务器无法获取userDetail内置的权限的问题](https://blog.csdn.net/sinat_41282961/article/details/111272166)

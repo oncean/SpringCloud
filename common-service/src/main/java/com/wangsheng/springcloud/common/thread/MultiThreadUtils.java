@@ -3,33 +3,63 @@ package com.wangsheng.springcloud.common.thread;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
-public class MultiThreadUtils implements MultiHandler{
+public class MultiThreadUtils{
 
-    private final static int BATCH_NUM = 10;
+    private final static int MAX_BLOCK_QUEUE_NUM = 100;
 
-    @Override
-    public void handle(List<CustomThread> threads) throws InterruptedException {
-        int total = threads.size();
+    private static int current = 0;
 
-        int every = total % BATCH_NUM == 0 ? total%BATCH_NUM : total% BATCH_NUM + 1 ;
-        ExecutorService executorService = Executors.newFixedThreadPool(every);
-        CountDownLatch c;
-        for (int i = 0; i < every; i++) {
-            c = new CountDownLatch(BATCH_NUM);
-            for(int j = every * BATCH_NUM;j<BATCH_NUM;i++){
-                if(j<total){
-                    CustomThread runnable = threads.get(j);
-                    runnable.setCountDownLatch(c);
-                    executorService.submit(threads.get(j));
-                }
-            }
-            c.await();
+    private static ExecutorService executorService;
+
+    private static void createPool(){
+        if(executorService != null){
+            return;
         }
+        ThreadFactory threadFactory = new MyThreadFactory();
+        RejectedExecutionHandler handler = new MyRejectHandler();
+        executorService = new ThreadPoolExecutor(10,20,20,TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(MAX_BLOCK_QUEUE_NUM),threadFactory,handler);
+    }
+
+    private static class MyThreadFactory implements ThreadFactory{
+
+        private final AtomicInteger count = new AtomicInteger(1);
+
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread thread = new Thread(r,"my-thread-" + count.getAndIncrement());
+            current++;
+            return thread;
+        }
+    }
+
+    private static class MyRejectHandler implements RejectedExecutionHandler{
+
+        @Override
+        public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+            //继续尝试入列
+            r.run();
+        }
+    }
+
+
+    public static void handle(List<CustomThread> threads) throws InterruptedException {
+        int total = threads.size();
+        if(total < 1){
+            return;
+        }
+        createPool();
+        int index=0;
+        while (index<total){
+            CustomThread customThread = threads.get(index);
+            executorService.submit(customThread);
+            index++;
+        }
+        executorService.shutdownNow();
+        System.out.println("关闭线程池...");
     }
 }

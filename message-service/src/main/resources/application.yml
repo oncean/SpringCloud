@@ -1,0 +1,29 @@
+
+nacos:
+  server-address: nacos.wangsheng.com
+  port: 8848
+  username: nacos
+  password: nacos
+spring:
+  application:
+    name: message-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.server-address}:${nacos.port}
+    stream:
+      kafka:
+        binder:
+          brokers: kafka.wangsheng.com:9092
+          required-acks: all
+        bindings:
+          login_consumer:
+            consumer:
+              autoCommitOffset: false
+      bindings:
+        login_consumer:
+          binder: kafka
+          destination: login-event
+          group: ${spring.application.name}
+server:
+  port: 9011

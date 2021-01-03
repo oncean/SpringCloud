@@ -2,7 +2,7 @@ server:
   port: 9003
 
 nacos:
-  server-address: localhost
+  server-address: nacos.wangsheng.com
   port: 8848
   username: nacos
   password: nacos
@@ -16,6 +16,17 @@ spring:
     nacos:
       discovery:
         server-addr: ${nacos.server-address}:${nacos.port}
+    stream:
+      kafka:
+        binder:
+          brokers: kafka.wangsheng.com
+          defaultBrokerPort: 9092
+          required-acks: all
+      bindings:
+        login_producer:
+          binder: kafka
+          destination: login-event
+          group: ${spring.application.name}
 dubbo:
   scan:
     base-packages: com.wangsheng.springcloud.dubbo
@@ -26,3 +37,5 @@ dubbo:
     address: nacos://${nacos.server-address}:${nacos.port}/?username=${nacos.username}&password=${nacos.password}
   application:
     name: dubbo-user-center
+  cloud:
+    subscribed-services: 'auth-service'
