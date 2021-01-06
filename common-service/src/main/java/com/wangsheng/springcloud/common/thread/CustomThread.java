@@ -1,16 +1,30 @@
 package com.wangsheng.springcloud.common.thread;
 
-import java.util.concurrent.CountDownLatch;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.*;
 
 public class CustomThread implements Runnable{
 
     private int num;
 
     private CountDownLatch countDownLatch;
+    static final ThreadLocal thread = new ThreadLocal();
 
+    ConcurrentHashMap map = new ConcurrentHashMap(12);
     public CustomThread(int num){
-        //System.out.println("创建线程 " + num);
+        new ThreadPoolExecutor(
+                10,
+                20,
+                10,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingDeque<>(),
+                new ThreadPoolExecutor.AbortPolicy()
+        );
         this.num = num;
+        thread.set(1);
     }
 
     @Override
@@ -31,5 +45,27 @@ public class CustomThread implements Runnable{
 
     protected void setCountDownLatch(CountDownLatch countDownLatch){
         this.countDownLatch = countDownLatch;
+    }
+
+
+    public static void main(String[] args){
+        //测试引用传递
+        Map<String,String> a = new HashMap<>();
+        a.put("1", "a");
+        List<Map> b = new ArrayList<Map>();
+        b.add(a);
+        a.put("2","b");
+        Map aa = b.get(0);
+        System.out.println(aa.get("1"));
+        //结论传递的是引用的副本
+        //测试值传递
+        int xx = 1;
+        add(xx);
+        System.out.print(xx);
+    }
+
+    public static void add(int temp){
+        temp++;
+
     }
 }

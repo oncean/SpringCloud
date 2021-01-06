@@ -15,6 +15,7 @@
         <module>common-service</module>
         <module>example-resource</module>
         <module>message-service</module>
+        <module>netty-service</module>
     </modules>
     <packaging>pom</packaging>
 
