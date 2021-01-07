@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class CustomThread implements Runnable{
 
@@ -12,10 +13,11 @@ public class CustomThread implements Runnable{
 
     private CountDownLatch countDownLatch;
     static final ThreadLocal thread = new ThreadLocal();
+    ReentrantLock lock = new ReentrantLock();
 
     ConcurrentHashMap map = new ConcurrentHashMap(12);
-    public CustomThread(int num){
-        new ThreadPoolExecutor(
+    public CustomThread(int num) throws InterruptedException {
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(
                 10,
                 20,
                 10,
@@ -23,6 +25,12 @@ public class CustomThread implements Runnable{
                 new LinkedBlockingDeque<>(),
                 new ThreadPoolExecutor.AbortPolicy()
         );
+        lock.lock();
+        lock.unlock();
+        countDownLatch.countDown();
+        countDownLatch.await();
+        pool.submit();
+        pool.execute();
         this.num = num;
         thread.set(1);
     }
