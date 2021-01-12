@@ -24,17 +24,18 @@ public class RedisTool {
     private static RedisTemplate redisTemplate;
 
     @Autowired
-    public RedisTool(RedisTemplate redisTemplate){
+    public RedisTool(RedisTemplate redisTemplate) {
         RedisTool.redisTemplate = redisTemplate;
     }
 
 
 
-    public static boolean  lock(String id){
+    public static Boolean lock(String id){
         String lock_id = LOCK_PREFIX + id;
-        return (Boolean) redisTemplate.execute((RedisCallback) redisConnection -> {
-            long expireAt = System.currentTimeMillis() + LOCK_EXPIRE + 1;
-            return redisConnection.setNX(lock_id.getBytes(),String.valueOf(expireAt).getBytes());
+        return (Boolean) redisTemplate.execute((RedisCallback)
+                redisConnection -> {
+                    long expireAt = System.currentTimeMillis() + LOCK_EXPIRE + 1;
+                    return redisConnection.setNX(lock_id.getBytes(),String.valueOf(expireAt).getBytes());
         });
     }
 
@@ -46,10 +47,10 @@ public class RedisTool {
 
     public static void main(String[] args) throws InterruptedException {
         Boolean aBoolean = RedisTool.lock("12");
-        if(aBoolean){
+        if(aBoolean) {
             Thread.sleep(1000);
             RedisTool.unLock("12");
-        }else{
+        } else {
             //任务已经被处理
         }
     }
