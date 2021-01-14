@@ -29,8 +29,6 @@ public class CustomThread implements Runnable{
         lock.unlock();
         countDownLatch.countDown();
         countDownLatch.await();
-        pool.submit();
-        pool.execute();
         this.num = num;
         thread.set(1);
     }
@@ -70,6 +68,9 @@ public class CustomThread implements Runnable{
         int xx = 1;
         add(xx);
         System.out.print(xx);
+        while (true){
+
+        }
     }
 
     public static void add(int temp){

@@ -1,6 +1,9 @@
 package com.wangsheng.springcloud.controller;
 
+import com.wangsheng.springcloud.common.model.result.Result;
+import com.wangsheng.springcloud.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +18,10 @@ import java.util.stream.IntStream;
 @RequestMapping("test")
 @Slf4j
 public class TestController {
+
+    @Autowired
+    private CustomerService customerService;
+
     @GetMapping(value = "1", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> flux(){
         Flux<String> result = Flux.fromStream(IntStream.range(1,5).mapToObj(i->{
@@ -62,5 +69,15 @@ public class TestController {
             return "Flux data --" + i;
         }));
         return result;
+    }
+    @GetMapping(value = "5")
+    public Result test(){
+        customerService.getResult();
+        return Result.success();
+    }
+    @GetMapping(value = "6")
+    public Result test6(){
+        customerService.setResult();
+        return Result.success();
     }
 }
