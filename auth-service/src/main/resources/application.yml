@@ -13,7 +13,17 @@ spring:
     active: dev
   application:
     name: auth-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://cem.mysql.com:3306/CEM_DEV_UAA?useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
   cloud:
     nacos:
       discovery:
         server-addr: ${nacos.host}:${nacos.port}
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.wangsheng.springcloud.entity
+  configuration:
+    map-underscore-to-camel-case: true

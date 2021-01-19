@@ -27,6 +27,7 @@ spring:
           binder: kafka
           destination: login-event
           group: ${spring.application.name}
+          partition
 dubbo:
   scan:
     base-packages: com.wangsheng.springcloud.dubbo

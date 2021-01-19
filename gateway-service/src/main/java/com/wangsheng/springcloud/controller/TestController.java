@@ -19,9 +19,6 @@ import java.util.stream.IntStream;
 @Slf4j
 public class TestController {
 
-    @Autowired
-    private CustomerService customerService;
-
     @GetMapping(value = "1", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> flux(){
         Flux<String> result = Flux.fromStream(IntStream.range(1,5).mapToObj(i->{
@@ -69,15 +66,5 @@ public class TestController {
             return "Flux data --" + i;
         }));
         return result;
-    }
-    @GetMapping(value = "5")
-    public Result test(){
-        customerService.getResult();
-        return Result.success();
-    }
-    @GetMapping(value = "6")
-    public Result test6(){
-        customerService.setResult();
-        return Result.success();
     }
 }
