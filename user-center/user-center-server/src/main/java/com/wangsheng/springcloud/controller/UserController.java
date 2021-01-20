@@ -53,8 +53,7 @@ public class UserController {
             msChannel.login_producer().send(
                     MessageBuilder.withPayload(
                             JSONUtil.toJsonStr(Result.success("login success"+ DateTime.now()))
-                    ).setHeader()
-                            .build()
+                    ).build()
             );
         }catch (Exception e){
             log.error("消息发送失败，原因",e);
