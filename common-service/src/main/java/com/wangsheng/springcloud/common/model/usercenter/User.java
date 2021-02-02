@@ -3,6 +3,7 @@ package com.wangsheng.springcloud.common.model.usercenter;
 import com.wangsheng.springcloud.common.model.base.BaseEntity;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 
 import java.io.Serializable;
 import java.util.List;
