@@ -16,6 +16,7 @@
         <module>example-resource</module>
         <module>message-service</module>
         <module>netty-service</module>
+        <module>ws-task</module>
     </modules>
     <packaging>pom</packaging>
 
