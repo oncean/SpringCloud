@@ -1,25 +1,28 @@
 package com.ws.task;
 
 
+import com.ws.task.crawler.AbstractCrawler;
+import com.ws.task.snapshot.WorkFlowSnapShot;
+import com.ws.task.status.WorkflowStatus;
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public class WorkFlow {
 
-    private enum Status{
-        NEW,WORKING,END,ERROR
-    }
     private String workFlowId;
-    private Status status;
-    private List<AbstractCrawler> steps;
+    private WorkflowStatus status;
+    private List<AbstractTask> steps;
 
-    private int currentStep;
+    private int currentStep = 0;
 
     // 记录当前执行的线程
     private TaskThread currentThread;
 
 
-    public WorkFlow(AbstractCrawler ...steps){
+    public WorkFlow(AbstractCrawler...steps){
         this.steps = Arrays.asList(steps);
     }
 
@@ -41,10 +44,14 @@ public class WorkFlow {
         @Override
         public void run(){
             for (int i = 0; i < steps.size(); i++) {
-                AbstractCrawler abstractCrawler = steps.get(i);
+                AbstractTask task = steps.get(i);
                 currentStep = i;
-                abstractCrawler.start();
+                task.start();
             }
         }
+    }
+
+    public WorkFlowSnapShot getSnapshot(){
+       return new WorkFlowSnapShot(this);
     }
 }

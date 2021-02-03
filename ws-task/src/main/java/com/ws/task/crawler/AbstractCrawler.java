@@ -1,5 +1,6 @@
-package com.ws.task;
+package com.ws.task.crawler;
 
+import com.ws.task.AbstractTask;
 import com.ws.task.model.CrawlerItem;
 import lombok.extern.slf4j.Slf4j;
 import us.codecraft.webmagic.*;
@@ -8,23 +9,14 @@ import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.SimpleProxyProvider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-public abstract class AbstractCrawler implements PageProcessor {
+public abstract class AbstractCrawler extends AbstractTask implements PageProcessor {
 
     private final static Proxy proxy = new Proxy("127.0.0.1",10809);
 
-    private enum Status{
-        NEW,WORKING,END,ERROR
-    }
-
     private ConcurrentHashMap<String,CrawlerItem> datas = new ConcurrentHashMap<>();
-
-    private Status status = Status.NEW;
 
     private boolean useProxy;
 
@@ -90,15 +82,9 @@ public abstract class AbstractCrawler implements PageProcessor {
 
     }
 
-    public void start() {
-        this.status = Status.WORKING;
-        try{
-            scan();
-        }catch (Exception e){
-            log.error("crawler error ", e);
-            this.status=Status.ERROR;
-        }
-        this.status = Status.END;
+    @Override
+    public void run(){
+        scan();
     }
 
 
