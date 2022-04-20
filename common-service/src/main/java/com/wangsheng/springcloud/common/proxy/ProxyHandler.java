@@ -6,17 +6,17 @@ import java.lang.reflect.Proxy;
 
 public class ProxyHandler implements InvocationHandler {
 
-    private Object car;
+    private Object object;
 
-    public Object bind(Object car){
-        this.car = car;
-        return Proxy.newProxyInstance(car.getClass().getClassLoader(),car.getClass().getInterfaces(),this);
+    public Object bind(Object object){
+        this.object = object;
+        return Proxy.newProxyInstance(object.getClass().getClassLoader(),object.getClass().getInterfaces(),this);
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         System.out.println("代理car"+method.getName());
-        method.invoke(car,args);
+        method.invoke(object,args);
         return null;
     }
 
